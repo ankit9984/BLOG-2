@@ -59,10 +59,15 @@ const login = async (req, res) => {
         const {username, password} = req.body;
 
         const user = await User.findOne({username});
+
+        if (!user) {
+            return res.status(400).json({ error: 'Invalid username or password' });
+        }
+
         const isPasswordCorrect = await bcrypt.compare(password, user.password);
         
 
-        if(!user || !isPasswordCorrect){
+        if(!isPasswordCorrect){
             return res.status(400).json({error: 'Invalid username or password'})
         };
 
@@ -77,7 +82,7 @@ const login = async (req, res) => {
             coverImg: user.coverImg
         })
     } catch (error) {
-        console.log('Error in coverImg controllers: ', error);
+        console.log('Error in Login controllers: ', error);
         res.status(500).json({error: 'Internal server errro'})
     }
 }
