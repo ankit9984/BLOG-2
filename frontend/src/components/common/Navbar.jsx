@@ -123,7 +123,7 @@ function Navbar() {
               </div>
             </div>
           ) : (
-            <div className='border-b-2 flex items-center flex-col w-full gap-3 p-2'>
+            <div className='border-b-2 flex items-center flex-col w-full gap-3 p-2 z-50'>
               <h1>Get started on Medium</h1>
               <Link to='/signup' className='bg-green-500 w-[70%] text-center text-white p-2 rounded-2xl'>Sign up</Link>
               <Link to='/login' className='border-[1px] border-black bod w-[70%] text-center  p-2 rounded-2xl'>Sign in</Link>
