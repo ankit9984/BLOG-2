@@ -101,7 +101,7 @@ const logout = async (req, res) => {
 const getProfile = async (req, res) => {
     const userId = req.user;
     try {
-        const user = await User.findById(userId._id).select('-password');
+        const user = await User.findById(userId._id).select('-password').populate('posts');
         res.status(200).json(user)
     } catch (error) {
         console.log("Error in getMe controllers", error);

@@ -12,6 +12,11 @@ const postSchema = new mongoose.Schema({
     img: {
         type: String
     },
+    status: {
+        type: String,
+        enum: ['draft', 'public'],
+        default: 'draft'
+    },
     author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'

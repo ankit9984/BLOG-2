@@ -4,7 +4,7 @@ import User from "../models/user.model.js";
 
 const createPost = async (req, res) => {
     try {
-        const {title, content, img} = req.body;
+        const {title, content, img, status} = req.body;
         const userId = req.user._id.toString();
 
         const user = await User.findById(userId);
@@ -34,7 +34,8 @@ const createPost = async (req, res) => {
             title,
             content,
             img: imgUrl,
-            author: userId
+            author: userId,
+            status
         });
         
         user.posts.push(newPost._id);
@@ -114,6 +115,7 @@ const deletePost = async (req, res) => {
         res.status(500).json('Internal server errro')
     }
 }
+
 
 export {
     createPost,

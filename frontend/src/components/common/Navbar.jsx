@@ -1,17 +1,19 @@
-import React, { useState,  useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { FaRegEdit, FaUser, FaHistory } from "react-icons/fa";
 import { CiSearch } from "react-icons/ci";
 import { CiSaveDown1 } from "react-icons/ci";
+import { IoMdNotificationsOutline } from "react-icons/io";
 import { toast } from 'react-hot-toast'
 
 import logo from '../../../public/img/logo.png';
 import user from '../../../public/img/user.png';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const imageRef = useRef(null);
+  const location = useLocation();
 
   const { data: authUser, refetch } = useQuery({ queryKey: ['authUser'] });
 
@@ -32,7 +34,7 @@ function Navbar() {
     },
     onSuccess: () => {
       toast.success('logout successfully');
-      queryClient.invalidateQueries({queryKey: ['authUser']})
+      queryClient.invalidateQueries({ queryKey: ['authUser'] })
     }
   })
 
@@ -76,10 +78,20 @@ function Navbar() {
           </div>
         </div>
         <div className='flex gap-10 items-center'>
-          <div className='md:flex gap-2  items-center cursor-pointer hidden'>
-            <FaRegEdit />
-            <span className=''>Write</span>
-          </div>
+          {location.pathname !== '/new-story' ? (
+            <div className='md:flex gap-2  items-center cursor-pointer hidden text-xl'>
+              <FaRegEdit />
+              <Link to='/new-story'>
+                <span className=''>Write</span>
+              </Link>
+              <IoMdNotificationsOutline className='text-2xl ml-4' />
+            </div>
+          ) : (
+            <div className='md:flex gap-2  items-center cursor-pointer hidden text-xl'>
+              <IoMdNotificationsOutline />
+              <div className='text-white p-1 rounded-xl text-base bg-green-400'>Public</div>
+            </div>
+          )}
           {!authUser && (
             <div className='gap-5 hidden md:flex'>
               <Link to='signup' className='bg-green-500 rounded-lg p-1 text-white cursor-pointer'>Sign up</Link>
@@ -108,7 +120,9 @@ function Navbar() {
               </div>
               <div className='flex items-center gap-3'>
                 <FaHistory />
-                <span>story</span>
+                <Link to='/stories/drawft'>
+                  <span>story</span>
+                </Link>
               </div>
               <div
                 onClick={(e) => {

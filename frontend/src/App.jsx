@@ -5,6 +5,9 @@ import Navbar from './components/common/Navbar'
 import Signup from './pages/auth/Signup'
 import Login from './pages/auth/Login'
 import Home from './pages/Home/Home'
+import NewStory from './pages/Home/NewStory'
+import Stories from './pages/Home/SaveStories'
+import SaveStories from './pages/Home/SaveStories'
 
 
 function App() {
@@ -18,7 +21,7 @@ function App() {
         if(!res.ok) {
           throw new Error(data.error || 'Something went wrong')
         }
-        // console.log('authUser is here: ', data);
+        console.log('authUser is here: ', data);
         return data;
       } catch (error) {
         throw new Error(error)
@@ -33,6 +36,8 @@ function App() {
           <Route path='/' element={authUser ? <Home/> : <Navigate to='/login' />}/>
           <Route path='/signup' element={!authUser ? <Signup/> : <Navigate to='/' />}/>
           <Route path='/login' element={!authUser ? <Login/> : <Navigate to='/' />}/>
+          <Route path='/new-story' element={authUser ? <NewStory/> : <Navigate to='/' />}/>
+          <Route path='/stories/drawft' element={authUser ? <SaveStories/> : <Navigate to='/' />} />
         </Routes>
     </>
   )
