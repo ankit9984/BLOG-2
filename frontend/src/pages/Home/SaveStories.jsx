@@ -16,31 +16,25 @@ function SaveStories() {
 
   const handleDelete = async (postId) => {
     try {
-      const response = await fetch(`/api/posts/delete/${postId}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('accessToken')}`, // Assuming you have an access token for authentication
-        },
-      });
-  
-      if (!response.ok) {
-        throw new Error('Failed to delete post');
-      }
-  
-      const deletedPost = await response.json();
-      toast.success('Post deleted successfully!');
       
-      // Update the UI to reflect the deletion
-      queryClient.setQueryData(['authUser'], (oldData) => {
-        const updatedPosts = oldData.posts.filter((post) => post._id !== deletedPost._id);
-        return { ...oldData, posts: updatedPosts };
+      await fetch(`/api/posts/delete/${postId}`, {
+        method: 'DELETE',
       });
+
+      // Invalidate the query cache to reflect the changes
+      queryClient.invalidateQueries('authUser');
+
+      // Show a success message
+      toast.success('Post deleted successfully');
     } catch (error) {
+      // Handle error
       console.error('Error deleting post:', error);
-      toast.error('Failed to delete post!');
+      toast.error('Error deleting post');
     }
   };
+
   
+
   
 
   const filteredPosts = authUser && authUser.posts.filter(post => post.status === selectedStatus)

@@ -33,6 +33,8 @@ function NewStory() {
     onSuccess: () => {
       toast.success('Post successfully');
       queryClient.invalidateQueries({ queryKey: ['authUser'] });
+      setTitle('')
+      setContent('')
     },
   });
 
